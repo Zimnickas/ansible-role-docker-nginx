@@ -6,6 +6,13 @@
     state: 'directory'
     mode: '0755'
 
+- name: "Create the {{ nginx_base_directory }} conf.d directory on the host"
+  become: yes
+  file:
+    path: "{{ nginx_base_directory }}/conf.d"
+    state: 'directory'
+    mode: '0755'
+
 - name: 'Put the nginx.conf file in place'
   become: yes
   copy:
@@ -14,11 +21,11 @@
     mode: '0644'
   notify: 'restart-docker-nginx'
 
-- name: "Copy the default html contents to {{ nginx_base_directory }}/defaults on the host"
+- name: "Copy the default html contents to {{ nginx_base_directory }}/{{ nginx_static_html_directory }} on the host"
   become: yes
   copy:
     src: "{{ nginx_static_html_directory }}/"
-    dest: "{{ nginx_base_directory }}/defaults"
+    dest: "{{ nginx_base_directory }}/{{ nginx_static_html_directory }}"
     mode: '0644'
   notify: 'restart-docker-nginx'
 
