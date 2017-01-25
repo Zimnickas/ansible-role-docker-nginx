@@ -21,6 +21,14 @@
     mode: '0644'
   notify: 'restart-docker-nginx'
 
+- name: 'Put the default.conf file in place'
+  become: yes
+  copy:
+    src: default.conf
+    dest: "{{ nginx_base_directory }}/conf.d/default.conf"
+    mode: '0644'
+  notify: 'restart-docker-nginx'
+
 - name: "Copy the default html contents to {{ nginx_base_directory }}/{{ nginx_static_html_directory }} on the host"
   become: yes
   copy:
